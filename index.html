@@ -9,45 +9,42 @@
 </head>
 <body>
     <script>
-        // Variabili globali per il diametro, il centro e il raggio
+        // Variabili globali
         let diametro = 400;
         let centroX, centroY;
         let raggio;
+        let clickX = null, clickY = null;
 
-        // Funzione di setup che viene eseguita una sola volta all'inizio
         function setup() {
-            // Crea una tela di dimensione 600x600 px
             createCanvas(600, 600);
-            // Imposta lo sfondo della tela
-            background(220);
-            // Calcola il centro della tela
             centroX = width / 2;
             centroY = height / 2;
-            // Calcola il raggio come metà del diametro
             raggio = diametro / 2;
-            // Disegna il bersaglio
+        }
+
+        function draw() {
+            background(220);
             disegnaBersaglio();
         }
 
-        // Funzione per disegnare il bersaglio
         function disegnaBersaglio() {
-            // Array di colori per alternare tra bianco e nero
-            let colori = [0, 255];
-            // Ciclo per disegnare 9 cerchi concentrici
+            let colori = [0, 255]; 
             for (let i = 0; i < 9; i++) {
-                // Alterna il colore per ogni cerchio
                 fill(colori[i % 2]);
-                // Disegna un cerchio con un diametro che diminuisce
                 circle(centroX, centroY, diametro - i * 40);
+            }
+            if (clickX !== null && clickY !== null) {
+                fill(255, 0, 0);
+                strokeWeight(2);
+                circle(clickX, clickY, 8);
             }
         }
 
-        // Funzione che viene eseguita quando l'utente clicca con il mouse
         function mouseClicked() {
-            // Calcola la distanza tra il punto del clic e il centro del bersaglio
             let distanza = dist(mouseX, mouseY, centroX, centroY);
+            clickX = mouseX;
+            clickY = mouseY;
 
-            // Se la distanza è inferiore o uguale al raggio, il clic è dentro il cerchio
             if (distanza <= raggio) {
                 console.log("Hai cliccato dentro il cerchio!");
             } else {
